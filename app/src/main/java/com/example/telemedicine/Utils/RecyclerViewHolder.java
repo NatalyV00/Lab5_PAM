@@ -21,6 +21,11 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.
     public DoctorModel model;
 
     private LinearLayout layout;
+    private CircleImageView photo;
+    private TextView fullName;
+    private TextView rating;
+    private TextView specs;
+    private TextView address;
 
     private FragmentHandler fragmentHandler;
 
@@ -29,10 +34,24 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.
 
         layout = itemView.findViewById(R.id.doctor_item);
         layout.setOnClickListener(this);
+
+        photo = itemView.findViewById(R.id.doctor_photo);
+        fullName = itemView.findViewById(R.id.doctor_name);
+        rating = itemView.findViewById(R.id.doctor_rating);
+        specs = itemView.findViewById(R.id.doctor_specs);
+        address = itemView.findViewById(R.id.doctor_address);
         this.fragmentHandler = fragmentHandler;
     }
 
     public void setItem(@NonNull DoctorModel model) {
+        fullName.setText(model.getFullName());
+        rating.setText(String.valueOf(model.getStars()));
+        specs.setText(model.getSpecs());
+        address.setText(model.getAddress());
+
+        byte[] decodedString = Base64.decode(model.getPhoto(), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        photo.setImageBitmap(decodedByte);
 
         this.model = model;
     }
@@ -40,6 +59,6 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.
     @Override
     public void onClick(View view) {
         fragmentHandler.getMainActivity().setToolbarTitle("Doctor Details");
-        fragmentHandler.loadDocDetailsFragment();
+        fragmentHandler.loadDocDetailsFragment(model.getDocId());
     }
 }

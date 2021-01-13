@@ -42,8 +42,8 @@ public class FragmentHandler {
         loadFragment(fragment);
     }
 
-    public void loadDocDetailsFragment() {
-        Fragment fragment = new DoctorDetailsFragment();
+    public void loadDocDetailsFragment(int id) {
+        Fragment fragment = new DoctorDetailsFragment(id);
         loadFragment(fragment);
     }
 
